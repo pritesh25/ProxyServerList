@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ProxyList</string>
+    <string name="ok">Ok</string>
+    <string name="unable_to_connect_server">Unable to connect server</string>
+    <string name="oops_something_went_wrong">Oops, something went wrong</string>
+    <string name="ip_address_copied">Ip Address Copied!</string>
+    <string name="port_copied">Port Copied!</string>
+    <string name="proxy_copied">Proxy Copied!</string>
+    <string name="ip_address">Ip Address</string>
+    <string name="port">Port</string>
+    <string name="protocol">Protocol</string>
+</resources>
