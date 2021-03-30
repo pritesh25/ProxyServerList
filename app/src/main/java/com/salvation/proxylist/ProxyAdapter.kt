@@ -1,12 +1,17 @@
 package com.salvation.proxylist
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.salvation.proxylist.databinding.ItemLayoutBinding
 import com.salvation.proxylist.room.ProxyEntity
 
-class ProxyAdapter(var list: ArrayList<ProxyEntity>, var proxyCallback: ProxyCallback) :
+class ProxyAdapter(
+    var list: ArrayList<ProxyEntity>,
+    var proxyCallback: ProxyCallback,
+    var cxt: Context
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val mTag = "ProxyAdapter"
@@ -38,7 +43,11 @@ class ProxyAdapter(var list: ArrayList<ProxyEntity>, var proxyCallback: ProxyCal
                 holder.b.tvPort.text = model.port.toString()
                 holder.b.tvProtocol.text = model.protocol
 
-                holder.b.tvIpAddress.setOnClickListener {
+                holder.itemView.setOnClickListener {
+                    proxyCallback.onProxySelected(getProxyList(model))
+                }
+
+                /*holder.b.tvIpAddress.setOnClickListener {
                     proxyCallback.onIpAddressClicked(model.ip)
                 }
 
@@ -48,10 +57,42 @@ class ProxyAdapter(var list: ArrayList<ProxyEntity>, var proxyCallback: ProxyCal
 
                 holder.b.tvProtocol.setOnClickListener {
                     proxyCallback.onProtocolClicked(model.protocol)
-                }
-
+                }*/
             }
         }
+    }
+
+    private fun getProxyList(model: ProxyEntity): ArrayList<ProxyDetailModel> {
+        return arrayListOf(
+            ProxyDetailModel(cxt.getString(R.string.self), model.self),
+            ProxyDetailModel(cxt.getString(R.string.parent), model.parent),
+            ProxyDetailModel(cxt.getString(R.string.hit), model.hit),
+            ProxyDetailModel(cxt.getString(R.string.count), model.count),
+            ProxyDetailModel(cxt.getString(R.string.ip_address), model.ip),
+            ProxyDetailModel(cxt.getString(R.string.port), model.port.toString()),
+            ProxyDetailModel(cxt.getString(R.string.protocol), model.protocol),
+            ProxyDetailModel(cxt.getString(R.string.anonymity), model.anonymity),
+            ProxyDetailModel(cxt.getString(R.string.last_tested), model.lastTested),
+            ProxyDetailModel(
+                cxt.getString(R.string.allows_referer_header),
+                model.allowsRefererHeader.toString()
+            ),
+            ProxyDetailModel(
+                cxt.getString(R.string.allows_user_agent_header),
+                model.allowsUserAgentHeader.toString()
+            ),
+            ProxyDetailModel(cxt.getString(R.string.allows_cookie), model.allowsCookies.toString()),
+            ProxyDetailModel(cxt.getString(R.string.allows_post), model.allowsPost.toString()),
+            ProxyDetailModel(cxt.getString(R.string.allows_https), model.allowsHttps.toString()),
+            ProxyDetailModel(cxt.getString(R.string.country), model.country),
+            ProxyDetailModel(cxt.getString(R.string.connect_time), model.connectTime),
+            ProxyDetailModel(cxt.getString(R.string.download_speed), model.downloadSpeed),
+            ProxyDetailModel(
+                cxt.getString(R.string.second_to_first_byte),
+                model.secondsToFirstByte
+            ),
+            ProxyDetailModel(cxt.getString(R.string.uptime), model.uptime)
+        )
     }
 
     fun updateList(it: List<ProxyEntity?>) {

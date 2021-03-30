@@ -5,8 +5,24 @@
     <string name="oops_something_went_wrong">Oops, something went wrong</string>
     <string name="ip_address_copied">Ip Address Copied!</string>
     <string name="port_copied">Port Copied!</string>
-    <string name="proxy_copied">Proxy Copied!</string>
+    <string name="data_copied">%1$s Copied!</string>
     <string name="ip_address">Ip Address</string>
     <string name="port">Port</string>
     <string name="protocol">Protocol</string>
+    <string name="self">Self</string>
+    <string name="parent">Parent</string>
+    <string name="hit">Hit</string>
+    <string name="anonymity">Anonymity</string>
+    <string name="last_tested">Last Tested</string>
+    <string name="allows_referer_header">Allows Referer Header</string>
+    <string name="allows_user_agent_header">Allows User Agent Header</string>
+    <string name="allows_cookie">Allows Cookie</string>
+    <string name="allows_https">Allows Https</string>
+    <string name="allows_post">Allows Post</string>
+    <string name="country">Country</string>
+    <string name="connect_time">Connect Time</string>
+    <string name="download_speed">Download Speed</string>
+    <string name="second_to_first_byte">Second to First byte</string>
+    <string name="uptime">Uptime</string>
+    <string name="count">Count</string>
 </resources>
