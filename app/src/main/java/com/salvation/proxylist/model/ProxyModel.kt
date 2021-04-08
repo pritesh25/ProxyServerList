@@ -1,9 +1,8 @@
-package com.salvation.proxylist
+package com.salvation.proxylist.model
 
 
 import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
-import androidx.room.Entity
 
 @Keep
 data class ProxyModel(

@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.viewbinding.BuildConfig
 import com.google.android.material.snackbar.Snackbar
 
 fun log(mTag: String, message: String) {

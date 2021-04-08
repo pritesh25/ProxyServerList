@@ -28,7 +28,17 @@ data class ProxyEntity(
     var connectTime: String?,
     var downloadSpeed: String?,
     var secondsToFirstByte: String?,
-    var uptime: String?
+    var uptime: String?,
+
+    val city: String?,
+    val countryName: String?,
+    val continentName: String?,
+    val longitude: Double?,
+    val latitude: Double?,
+    val type: String?,
+    val zip: String?
+
+
 ) {
     constructor(
         self: String?,
@@ -52,7 +62,15 @@ data class ProxyEntity(
         connectTime: String?,
         downloadSpeed: String?,
         secondsToFirstByte: String?,
-        uptime: String?
+        uptime: String?,
+
+        city: String?,
+        countryName: String?,
+        continentName: String?,
+        longitude: Double?,
+        latitude: Double?,
+        type: String?,
+        zip: String?
     ) : this(
         0,
         self,
@@ -74,6 +92,14 @@ data class ProxyEntity(
         connectTime,
         downloadSpeed,
         secondsToFirstByte,
-        uptime
+        uptime,
+
+        city,
+        countryName,
+        continentName,
+        longitude,
+        latitude,
+        type,
+        zip
     )
 }

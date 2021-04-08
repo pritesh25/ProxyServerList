@@ -1,8 +1,10 @@
-package com.salvation.proxylist
+package com.salvation.proxylist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.salvation.proxylist.interfaces.ProxyDetailCallback
+import com.salvation.proxylist.model.ProxyDetailModel
 import com.salvation.proxylist.databinding.ItemProxyDetailBinding
 
 class ProxyDetailAdapter(var list: ArrayList<ProxyDetailModel>, var callback: ProxyDetailCallback) :

@@ -12,9 +12,16 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
+import com.salvation.proxylist.adapter.ProxyAdapter
+import com.salvation.proxylist.adapter.ProxyDetailAdapter
 import com.salvation.proxylist.databinding.ActivityMainBinding
 import com.salvation.proxylist.databinding.BottomsheetLayoutBinding
-import com.salvation.proxylist.room.ProxyEntity
+import com.salvation.proxylist.interfaces.ProxyCallback
+import com.salvation.proxylist.interfaces.ProxyDetailCallback
+import com.salvation.proxylist.model.IpStackModel
+import com.salvation.proxylist.model.ProxyDetailModel
+import com.salvation.proxylist.model.ProxyModel
+import com.salvation.proxylist.utils.STATUS_200
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(), ProxyCallback, ProxyDetailCallback {
@@ -57,6 +64,8 @@ class MainActivity : AppCompatActivity(), ProxyCallback, ProxyDetailCallback {
         b.swipeRefreshLayout.isRefreshing = true
     }
 
+    private var proxyModel: ProxyModel? = null
+    private var ipStackModel: IpStackModel? = null
     private fun getViewModel() {
 
         val proxyAdapter = ProxyAdapter(arrayListOf(), this, applicationContext)
@@ -66,40 +75,30 @@ class MainActivity : AppCompatActivity(), ProxyCallback, ProxyDetailCallback {
         }
 
         proxyViewModel.init()
-        proxyViewModel.getProxyRequest()?.observe(this) {
+        proxyViewModel.getProxyRequest()?.observe(this) { proxyResponse ->
 
             b.swipeRefreshLayout.isRefreshing = false
             b.progressBar.visibility = View.GONE
 
-            it?.let { response ->
+            proxyResponse?.let { response ->
                 response.statusCode?.let { statusCode ->
                     when (statusCode) {
                         STATUS_200 -> {
                             response.model?.let { model ->
-                                proxyViewModel.insertProxy(
-                                    ProxyEntity(
-                                        model.links?.self,
-                                        model.links?.parent,
-                                        model.cache?.key,
-                                        model.cache?.hit,
-                                        model.stats?.count,
-                                        model.ip,
-                                        model.port,
-                                        model.protocol,
-                                        model.anonymity,
-                                        model.lastTested,
-                                        model.allowsRefererHeader,
-                                        model.allowsUserAgentHeader,
-                                        model.allowsCookies,
-                                        model.allowsPost,
-                                        model.allowsHttps,
-                                        model.country,
-                                        model.connectTime,
-                                        model.downloadSpeed,
-                                        model.secondsToFirstByte,
-                                        model.uptime
-                                    )
-                                )
+                                proxyModel = model
+
+                                model.ip?.let { ip ->
+
+                                    b.swipeRefreshLayout.isRefreshing = true
+                                    b.progressBar.visibility = View.VISIBLE
+
+                                    proxyViewModel.setIpStackResponse(ip)
+
+                                } ?: kotlin.run {
+                                    snackbar?.setText(R.string.oops_something_went_wrong)
+                                    snackbar?.show()
+                                }
+
                             } ?: kotlin.run {
                                 snackbar?.setText(R.string.oops_something_went_wrong)
                                 snackbar?.show()
@@ -123,6 +122,35 @@ class MainActivity : AppCompatActivity(), ProxyCallback, ProxyDetailCallback {
             }
         }
         proxyViewModel.setProxyRequest()
+
+        proxyViewModel.getIpStackResponse()?.observe(this) { ipStackResponse ->
+
+            b.swipeRefreshLayout.isRefreshing = false
+            b.progressBar.visibility = View.GONE
+
+            ipStackResponse?.let { response ->
+                response.statusCode?.let { statusCode ->
+                    when (statusCode) {
+                        STATUS_200 -> {
+                            response.model?.let {
+                                proxyViewModel.insertProxy(proxyModel!!, it)
+                            } ?: kotlin.run {
+                                snackbar?.setText(R.string.oops_something_went_wrong)
+                                snackbar?.show()
+                            }
+                        }
+                        else -> {
+                            snackbar?.setText(R.string.oops_something_went_wrong)
+                            snackbar?.show()
+                        }
+                    }
+                } ?: kotlin.run {
+                    snackbar?.setText(R.string.unable_to_connect_server)
+                    snackbar?.show()
+                }
+            }
+        }
+
         proxyViewModel.proxyList?.observe(this) {
             it?.let {
                 proxyAdapter.updateList(it)

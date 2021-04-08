@@ -1,4 +1,6 @@
-package com.salvation.proxylist
+package com.salvation.proxylist.interfaces
+
+import com.salvation.proxylist.model.ProxyDetailModel
 
 interface ProxyCallback {
     /*fun onIpAddressClicked(ipAddress: String?)

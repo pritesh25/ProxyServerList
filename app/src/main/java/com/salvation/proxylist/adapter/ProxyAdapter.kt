@@ -1,10 +1,13 @@
-package com.salvation.proxylist
+package com.salvation.proxylist.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.salvation.proxylist.R
 import com.salvation.proxylist.databinding.ItemLayoutBinding
+import com.salvation.proxylist.interfaces.ProxyCallback
+import com.salvation.proxylist.model.ProxyDetailModel
 import com.salvation.proxylist.room.ProxyEntity
 
 class ProxyAdapter(
@@ -65,8 +68,8 @@ class ProxyAdapter(
     private fun getProxyList(model: ProxyEntity): ArrayList<ProxyDetailModel> {
         return arrayListOf(
             ProxyDetailModel(cxt.getString(R.string.self), model.self),
-            ProxyDetailModel(cxt.getString(R.string.parent), model.parent),
-            ProxyDetailModel(cxt.getString(R.string.hit), model.hit),
+            //ProxyDetailModel(cxt.getString(R.string.parent), model.parent),
+            //ProxyDetailModel(cxt.getString(R.string.hit), model.hit),
             ProxyDetailModel(cxt.getString(R.string.count), model.count),
             ProxyDetailModel(cxt.getString(R.string.ip_address), model.ip),
             ProxyDetailModel(cxt.getString(R.string.port), model.port.toString()),
@@ -91,7 +94,16 @@ class ProxyAdapter(
                 cxt.getString(R.string.second_to_first_byte),
                 model.secondsToFirstByte
             ),
-            ProxyDetailModel(cxt.getString(R.string.uptime), model.uptime)
+            ProxyDetailModel(cxt.getString(R.string.uptime), model.uptime),
+
+
+            ProxyDetailModel(cxt.getString(R.string.city), model.city),
+            ProxyDetailModel(cxt.getString(R.string.county), model.countryName),
+            ProxyDetailModel(cxt.getString(R.string.continent), model.continentName),
+            ProxyDetailModel(cxt.getString(R.string.longitude), model.longitude.toString()),
+            ProxyDetailModel(cxt.getString(R.string.latitude), model.latitude.toString()),
+            ProxyDetailModel(cxt.getString(R.string.type), model.type),
+            ProxyDetailModel(cxt.getString(R.string.zip), model.zip)
         )
     }
 

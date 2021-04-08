@@ -1,14 +1,19 @@
-package com.salvation.proxylist
+package com.salvation.proxylist.repository
 
 import androidx.lifecycle.MutableLiveData
+import com.salvation.proxylist.interfaces.ProxyApi
+import com.salvation.proxylist.model.ProxyModel
+import com.salvation.proxylist.responses.ProxyResponse
+import com.salvation.proxylist.utils.RetrofitClientApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ProxyRepository {
-    private var mTag = "ProxyRepository"
 
-    private val proxyApi = RetrofitClientApi.getRetrofitClient().create(ProxyApi::class.java)
+        private var mTag = "ProxyRepository"
+
+    private val proxyApi = RetrofitClientApi.getRetrofitClientProxyList().create(ProxyApi::class.java)
     private val apiResponse = MutableLiveData<ProxyResponse>()
 
     fun setProxyRequest() {

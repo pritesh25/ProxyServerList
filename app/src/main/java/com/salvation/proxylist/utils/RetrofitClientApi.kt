@@ -1,7 +1,9 @@
-package com.salvation.proxylist
+package com.salvation.proxylist.utils
+
 
 import androidx.viewbinding.BuildConfig
-import com.salvation.proxylist.BuildConfig.BASE_URL
+import com.salvation.proxylist.BuildConfig.BASE_URL_IPSTACK
+import com.salvation.proxylist.BuildConfig.BASE_URL_PROXYLIST
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -14,9 +16,9 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClientApi {
 
-    private const val mTag = "RetrofitClient"
+    private const val mTag = "RetrofitClientApi"
 
-    fun getRetrofitClient(): Retrofit {
+    fun getRetrofitClientProxyList(): Retrofit {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder()
@@ -28,7 +30,24 @@ object RetrofitClientApi {
         if (BuildConfig.DEBUG) {
             httpClient.addInterceptor(logging)
         }
-        val builder = Retrofit.Builder().baseUrl(BASE_URL)
+        val builder = Retrofit.Builder().baseUrl(BASE_URL_PROXYLIST)
+        return builder.addConverterFactory(GsonConverterFactory.create()).client(httpClient.build())
+            .build()
+    }
+
+    fun getRetrofitClientIpStack(): Retrofit {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        val httpClient = OkHttpClient.Builder()
+        //httpClient.addInterceptor(BasicAuthInterceptor("hp_api", "W5N@CG$4e*b9"))
+
+        httpClient.connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+        httpClient.readTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+        httpClient.writeTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+        if (BuildConfig.DEBUG) {
+            httpClient.addInterceptor(logging)
+        }
+        val builder = Retrofit.Builder().baseUrl(BASE_URL_IPSTACK)
         return builder.addConverterFactory(GsonConverterFactory.create()).client(httpClient.build())
             .build()
     }

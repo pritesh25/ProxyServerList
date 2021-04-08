@@ -1,5 +1,6 @@
-package com.salvation.proxylist
+package com.salvation.proxylist.responses
 
+import com.salvation.proxylist.model.ProxyModel
 import okhttp3.ResponseBody
 
 class ProxyResponse {
